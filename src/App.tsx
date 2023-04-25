@@ -1,25 +1,41 @@
-import React from 'react';
-import Node from './components/Node/Node';
+import React, { useState } from 'react';
+import NodeTree from './components/NodeTree/NodeTree';
+
+const testData = [
+  {
+    id: 'root',
+    name: 'Root Node',
+    parentId: null,
+    department: '',
+    programmingLanguage: '',
+    height: 1,
+  },
+  {
+    id: 'a',
+    name: 'Child A',
+    parentId: 'root',
+    department: 'Test',
+    programmingLanguage: 'JavaScript',
+    height: 2,
+  },
+  {
+    id: 'b',
+    name: 'Child B',
+    parentId: 'root',
+    department: 'Test',
+    programmingLanguage: 'JavaScript',
+    height: 2,
+  },
+];
 
 const App: React.FC = () => {
-  const node = {
-    id: '1',
-    name: 'CEO NAME',
-    parentId: null,
-    height: 0,
-    department: 'Management',
-    programmingLanguage: undefined,
-  };
+  const [activeNode, setActiveNode] = useState('');
 
   const handleNavigate = () => {
-    // Handle navigation to parent node
+    // Handle navigation to node
   };
 
-  return (
-    <div className="app">
-      <Node {...node} onNavigate={handleNavigate} />
-    </div>
-  );
+  return <NodeTree nodes={testData} onNodeClick={handleNavigate} />;
 };
 
 export default App;
