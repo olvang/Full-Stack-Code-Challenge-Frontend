@@ -1,0 +1,54 @@
+.node-container {
+  display: flex;
+  align-items: center;
+}
+
+.node-container__navigate {
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: 10rem;
+  height: 10rem;
+}
+
+.node h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  word-break: break-word;
+}
+
+.node__badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.1rem 0.25rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  border-radius: 1rem;
+  width: 6rem;
+  word-break: break-word;
+}
+
+.node__badge--department {
+  background-color: #0099ff;
+}
+
+.node__badge--language {
+  background-color: #6e40aa;
+}
