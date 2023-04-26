@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import NodeForm from './components/NodeForm/NodeForm';
 import NodeTree from './components/NodeTree/NodeTree';
 import { NodeData } from './models/node.interfaces';
 import { getChildNodes } from './services/api.service';
@@ -15,14 +16,14 @@ const App: React.FC = () => {
   const [activeNode, setActiveNode] = useState<NodeData>(initialNode);
   const [parentNodes, setParentNodes] = useState<NodeData[]>([]);
   const [childNodes, setChildNodes] = useState<NodeData[]>([]);
+  const [showCreateNewNodeForm, setShowCreateNewNodeForm] = useState(false);
+
+  const fetchChildNodes = async () => {
+    const fetchedChildNodes = await getChildNodes(activeNode.id);
+    setChildNodes(fetchedChildNodes);
+  };
 
   useEffect(() => {
-    // Fetch child nodes for the current node and update state
-    const fetchChildNodes = async () => {
-      const fetchedChildNodes = await getChildNodes(activeNode.id); // Assuming getChildren fetches child nodes from the backend
-      setChildNodes(fetchedChildNodes);
-    };
-
     fetchChildNodes();
   }, [activeNode]);
 
@@ -39,12 +40,26 @@ const App: React.FC = () => {
   };
 
   return (
-    <NodeTree
-      activeNode={activeNode}
-      childNodes={childNodes}
-      handleNodeClick={handleNodeClick}
-      handleGoUp={handleGoUp}
-    />
+    <div>
+      {showCreateNewNodeForm ? (
+        <NodeForm
+          parentNode={activeNode}
+          onNodeCreated={() => {
+            setShowCreateNewNodeForm(false);
+            fetchChildNodes();
+          }}
+          onCancel={() => setShowCreateNewNodeForm(false)}
+        />
+      ) : (
+        <NodeTree
+          activeNode={activeNode}
+          childNodes={childNodes}
+          handleNodeClick={handleNodeClick}
+          handleGoUp={handleGoUp}
+          setShowCreateNewNodeForm={setShowCreateNewNodeForm}
+        />
+      )}
+    </div>
   );
 };
 

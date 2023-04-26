@@ -8,6 +8,7 @@ interface NodeTreeProps {
   childNodes: NodeData[];
   handleNodeClick: (node: NodeData) => void;
   handleGoUp: () => void;
+  setShowCreateNewNodeForm: (show: boolean) => void;
 }
 
 const NodeTree: React.FC<NodeTreeProps> = ({
@@ -15,6 +16,7 @@ const NodeTree: React.FC<NodeTreeProps> = ({
   childNodes,
   handleNodeClick,
   handleGoUp,
+  setShowCreateNewNodeForm,
 }) => {
   if (!activeNode) return null;
 
@@ -45,6 +47,9 @@ const NodeTree: React.FC<NodeTreeProps> = ({
             onNavigateUp={() => handleGoUp()}
           />
           {renderChildNodes()}
+          <button onClick={() => setShowCreateNewNodeForm(true)}>
+            Add new Node
+          </button>
         </li>
       </ul>
     </div>
