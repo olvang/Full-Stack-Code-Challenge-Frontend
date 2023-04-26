@@ -11,6 +11,7 @@ type Props = NodeData & NodeNavigationProps;
 
 const Node: React.FC<Props> = ({
   name,
+  height,
   parentId,
   department,
   programmingLanguage,
@@ -36,6 +37,7 @@ const Node: React.FC<Props> = ({
             {programmingLanguage}
           </span>
         )}
+        <span className="node__badge node__badge--height">{height}</span>
       </button>
     </div>
   );

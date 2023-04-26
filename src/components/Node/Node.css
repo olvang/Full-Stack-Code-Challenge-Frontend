@@ -52,3 +52,7 @@
 .node__badge--language {
   background-color: #6e40aa;
 }
+
+.node__badge--height {
+  background-color: #ff9900;
+}
