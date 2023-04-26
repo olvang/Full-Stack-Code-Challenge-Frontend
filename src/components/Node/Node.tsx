@@ -4,7 +4,7 @@ import { NodeData } from '../../models/node.interfaces';
 
 interface NodeNavigationProps {
   onNavigate: () => void;
-  isActiveNode: boolean;
+  onNavigateUp?: () => void;
 }
 
 type Props = NodeData & NodeNavigationProps;
@@ -15,11 +15,16 @@ const Node: React.FC<Props> = ({
   department,
   programmingLanguage,
   onNavigate,
-  isActiveNode,
+  onNavigateUp,
 }) => {
   return (
     <div className="node-container">
       <button className="node" onClick={onNavigate}>
+        {parentId && onNavigateUp && (
+          <button className="node-header__button" onClick={onNavigateUp}>
+            &larr; Up
+          </button>
+        )}
         <h3>{name}</h3>
         {department && (
           <span className="node__badge node__badge--department">
