@@ -4,17 +4,17 @@ import Node from '../Node/Node';
 import { NodeData } from '../../models/node.interfaces';
 
 interface NodeTreeProps {
-  nodes: NodeData[];
-  onNodeClick: (nodeId: string) => void;
+  activeNode: NodeData;
+  childNodes: NodeData[];
+  onNavigate: (node: NodeData) => void;
 }
 
-const NodeTree: React.FC<NodeTreeProps> = ({ nodes, onNodeClick }) => {
-  // Get the root node
-  const rootNode = nodes.find((node) => node.parentId === null);
-
+const NodeTree: React.FC<NodeTreeProps> = ({
+  activeNode,
+  childNodes,
+  onNavigate,
+}) => {
   const renderChildNodes = () => {
-    const childNodes = nodes.filter((node) => node.parentId === rootNode?.id);
-
     // If there are no child nodes, return null
     if (childNodes.length === 0) {
       return null;
@@ -31,7 +31,8 @@ const NodeTree: React.FC<NodeTreeProps> = ({ nodes, onNodeClick }) => {
               department={node.department}
               programmingLanguage={node.programmingLanguage}
               height={node.height}
-              onNavigate={() => onNodeClick(node.id)}
+              onNavigate={() => onNavigate(node)}
+              isActiveNode={false}
             />
           </li>
         ))}
@@ -44,13 +45,14 @@ const NodeTree: React.FC<NodeTreeProps> = ({ nodes, onNodeClick }) => {
       <ul>
         <li>
           <Node
-            id={rootNode?.id || ''}
-            name={rootNode?.name || ''}
-            parentId={rootNode?.parentId || ''}
-            department={rootNode?.department || ''}
-            programmingLanguage={rootNode?.programmingLanguage || ''}
-            height={rootNode?.height || 0}
-            onNavigate={() => onNodeClick(rootNode?.id || '')}
+            id={activeNode?.id || ''}
+            name={activeNode?.name || ''}
+            parentId={activeNode?.parentId || ''}
+            department={activeNode?.department || ''}
+            programmingLanguage={activeNode?.programmingLanguage || ''}
+            height={activeNode?.height || 0}
+            onNavigate={() => onNavigate(activeNode)}
+            isActiveNode={true}
           />
           {renderChildNodes()}
         </li>

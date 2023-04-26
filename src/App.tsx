@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NodeTree from './components/NodeTree/NodeTree';
-
-const testData = [
-  {
-    id: 'root',
-    name: 'Root Node',
-    parentId: null,
-    department: '',
-    programmingLanguage: '',
-    height: 1,
-  },
-  {
-    id: 'a',
-    name: 'Child A',
-    parentId: 'root',
-    department: 'Test',
-    programmingLanguage: 'JavaScript',
-    height: 2,
-  },
-  {
-    id: 'b',
-    name: 'Child B',
-    parentId: 'root',
-    department: 'Test',
-    programmingLanguage: 'JavaScript',
-    height: 2,
-  },
-];
+import { NodeData } from './models/node.interfaces';
+import { getChildNodes } from './services/api.service';
 
 const App: React.FC = () => {
-  const [activeNode, setActiveNode] = useState('');
+  const [activeNode, setActiveNode] = useState<NodeData>({
+    id: 'ceo',
+    height: 0,
+    name: 'CEO Name',
+    parentId: null,
+    department: 'Executive',
+  });
+  const [childNodes, setChildNodes] = useState<NodeData[]>([]);
 
-  const handleNavigate = () => {
-    // Handle navigation to node
+  useEffect(() => {
+    const fetchChildNodes = async () => {
+      try {
+        const nodes = await getChildNodes(activeNode.id);
+        setChildNodes(nodes);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchChildNodes();
+  }, [activeNode]);
+
+  const handleNavigate = (node: NodeData) => {
+    setActiveNode(node);
   };
 
-  return <NodeTree nodes={testData} onNodeClick={handleNavigate} />;
+  return (
+    <NodeTree
+      activeNode={activeNode}
+      childNodes={childNodes}
+      onNavigate={handleNavigate}
+    />
+  );
 };
 
 export default App;
